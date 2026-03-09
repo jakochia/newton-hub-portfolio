@@ -1,0 +1,2667 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEWTON HUB | Software Engineering & Cybersecurity</title>
+    
+    <!-- Meta Tags -->
+    <meta name="description" content="Newton Asha OMBUYA - Software Engineering Student & Cybersecurity Enthusiast">
+    <meta name="keywords" content="Newton OMBUYA, Cybersecurity, Networking, Ethical Hacking, Nairobi">
+    <meta name="author" content="Newton Asha OMBUYA">
+    
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Orbitron:wght@400;500;600;700;800&family=Roboto+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Anime.js for advanced animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    
+    <!-- jsPDF for proper PDF generation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    
+    <style>
+        /* ===== RESET & VARIABLES ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #00ff9d;
+            --primary-dark: #00cc7d;
+            --primary-glow: rgba(0, 255, 157, 0.4);
+            --secondary: #0a192f;
+            --accent: #64ffda;
+            --dark: #0a0f1c;
+            --darker: #05080f;
+            --light: #ccd6f6;
+            --slate: #8892b0;
+            --navy: #0a192f;
+            --navy-light: #112240;
+            --navy-lighter: #233554;
+            --terminal-black: #0c0c0c;
+            --terminal-green: #00ff9d;
+            --purple-accent: #b829e0;
+            --blue-accent: #2a7de1;
+            
+            --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            --shadow: 0 20px 40px -20px var(--primary-glow);
+            --border-radius: 12px;
+            --glow-effect: 0 0 30px var(--primary-glow);
+            --card-gradient: linear-gradient(135deg, rgba(0,255,157,0.1) 0%, rgba(0,255,157,0) 100%);
+        }
+
+        [data-theme="dark"] {
+            --bg-primary: var(--dark);
+            --bg-secondary: var(--navy);
+            --bg-tertiary: var(--navy-light);
+            --text-primary: #e6f1ff;
+            --text-secondary: var(--light);
+            --text-tertiary: var(--slate);
+            --border-color: var(--navy-lighter);
+            --card-bg: rgba(17, 34, 64, 0.8);
+            --nav-bg: rgba(10, 25, 47, 0.98);
+            --terminal-bg: #0a0f1c;
+            --quote-bg: rgba(0, 255, 157, 0.05);
+        }
+
+        [data-theme="light"] {
+            --bg-primary: #f0f4fa;
+            --bg-secondary: #ffffff;
+            --bg-tertiary: #e6f1ff;
+            --text-primary: #0a192f;
+            --text-secondary: #112240;
+            --text-tertiary: #233554;
+            --border-color: #64ffda;
+            --card-bg: rgba(255, 255, 255, 0.9);
+            --nav-bg: rgba(255, 255, 255, 0.98);
+            --terminal-bg: #f0f4fa;
+            --quote-bg: rgba(0, 255, 157, 0.1);
+        }
+
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            transition: var(--transition);
+            overflow-x: hidden;
+        }
+
+        /* ===== PHOTO STYLES ===== */
+        .photo-container {
+            position: relative;
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .profile-photo {
+            width: 100%;
+            height: auto;
+            border-radius: 20px;
+            border: 3px solid var(--primary);
+            box-shadow: var(--glow-effect);
+            transition: var(--transition);
+            filter: grayscale(20%);
+        }
+
+        .profile-photo:hover {
+            transform: scale(1.02) translateY(-10px);
+            filter: grayscale(0%);
+            box-shadow: 0 0 50px var(--primary-glow);
+        }
+
+        .photo-frame {
+            position: relative;
+            overflow: hidden;
+            border-radius: 20px;
+        }
+
+        .photo-frame::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                45deg,
+                transparent,
+                var(--primary-glow),
+                transparent
+            );
+            transform: rotate(45deg);
+            animation: photoGlow 3s linear infinite;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .photo-frame:hover::before {
+            opacity: 1;
+        }
+
+        @keyframes photoGlow {
+            0% { transform: rotate(45deg) translateY(-100%); }
+            100% { transform: rotate(45deg) translateY(100%); }
+        }
+
+        .photo-badge {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            background: var(--primary);
+            color: var(--dark);
+            padding: 0.5rem 1rem;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            box-shadow: 0 0 20px var(--primary-glow);
+            z-index: 10;
+        }
+
+        /* Hero section photo layout */
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .hero-photo {
+            position: relative;
+            animation: floatPhoto 3s ease-in-out infinite;
+        }
+
+        @keyframes floatPhoto {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .hero-photo::after {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            width: 100%;
+            height: 100%;
+            border: 3px solid var(--primary);
+            border-radius: 20px;
+            z-index: -1;
+            opacity: 0.3;
+            transition: var(--transition);
+        }
+
+        .hero-photo:hover::after {
+            top: 10px;
+            left: 10px;
+        }
+
+        /* About section photo */
+        .about-photo {
+            width: 100%;
+            max-width: 350px;
+            margin: 0 auto 2rem;
+        }
+
+        /* CV photo */
+        .cv-photo {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--primary);
+            margin: 0 auto 1rem;
+            display: block;
+            box-shadow: var(--glow-effect);
+        }
+
+        /* ===== LIVE TYPING EFFECT STYLES ===== */
+        .typing-container {
+            display: inline-flex;
+            align-items: center;
+            background: var(--card-bg);
+            border: 1px solid var(--primary);
+            border-radius: 50px;
+            padding: 0.8rem 2rem;
+            margin: 1rem 0 2rem 0;
+            backdrop-filter: blur(10px);
+            box-shadow: var(--glow-effect);
+            font-family: 'Roboto Mono', monospace;
+        }
+
+        .typing-prefix {
+            color: var(--text-tertiary);
+            margin-right: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .typing-text {
+            color: var(--primary);
+            font-size: 1.1rem;
+            font-weight: 600;
+            position: relative;
+            min-width: 200px;
+        }
+
+        .typing-text::after {
+            content: '|';
+            position: absolute;
+            right: -10px;
+            color: var(--primary);
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        /* Tab-specific typing containers */
+        .hero-typing {
+            margin-left: 0;
+        }
+
+        .section-typing {
+            display: flex;
+            justify-content: center;
+            margin: 2rem 0;
+        }
+
+        /* ===== MUSIC PLAYER CONTROL ===== */
+        .music-control {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 10000;
+            background: var(--card-bg);
+            border: 2px solid var(--primary);
+            border-radius: 50px;
+            padding: 0.8rem 1.5rem;
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            box-shadow: var(--glow-effect);
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .music-btn {
+            background: transparent;
+            border: none;
+            color: var(--primary);
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: var(--transition);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .music-btn:hover {
+            background: var(--primary);
+            color: var(--dark);
+            transform: scale(1.1);
+        }
+
+        .volume-slider {
+            width: 80px;
+            height: 4px;
+            background: var(--border-color);
+            border-radius: 2px;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .volume-fill {
+            position: absolute;
+            height: 100%;
+            width: 50%;
+            background: var(--primary);
+            border-radius: 2px;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* ===== SPLASH SCREEN ===== */
+        .splash-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: linear-gradient(135deg, var(--darker) 0%, var(--navy) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            transition: transform 1.2s cubic-bezier(0.87, 0, 0.13, 1);
+            overflow: hidden;
+        }
+
+        .splash-screen.hidden {
+            transform: translateY(-100%);
+        }
+
+        .splash-content {
+            text-align: center;
+            position: relative;
+            z-index: 2;
+            animation: fadeInScale 1s ease;
+        }
+
+        @keyframes fadeInScale {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .splash-title {
+            font-size: clamp(4rem, 12vw, 7rem);
+            font-weight: 800;
+            color: transparent;
+            -webkit-text-stroke: 2px var(--primary);
+            text-stroke: 2px var(--primary);
+            margin-bottom: 1rem;
+            animation: glitchText 0.4s infinite;
+            position: relative;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .splash-title::before,
+        .splash-title::after {
+            content: 'NEWTON HUB';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.8;
+        }
+
+        .splash-title::before {
+            color: var(--purple-accent);
+            z-index: -1;
+            animation: glitchMove 0.4s infinite;
+        }
+
+        .splash-title::after {
+            color: var(--blue-accent);
+            z-index: -2;
+            animation: glitchMove 0.4s reverse infinite;
+        }
+
+        @keyframes glitchMove {
+            0%, 100% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+        }
+
+        .splash-terminal {
+            background: rgba(0, 0, 0, 0.8);
+            border: 2px solid var(--primary);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            margin: 2rem auto;
+            max-width: 700px;
+            text-align: left;
+            font-family: 'Roboto Mono', monospace;
+            color: var(--primary);
+            box-shadow: var(--glow-effect);
+            backdrop-filter: blur(10px);
+        }
+
+        .terminal-line {
+            margin-bottom: 0.8rem;
+            opacity: 0;
+            animation: typing 4s steps(50, end) forwards;
+            white-space: nowrap;
+            overflow: hidden;
+            border-right: 2px solid var(--primary);
+            font-size: 1.1rem;
+        }
+
+        .terminal-line:nth-child(1) { animation-delay: 0.5s; }
+        .terminal-line:nth-child(2) { animation-delay: 2.5s; }
+        .terminal-line:nth-child(3) { animation-delay: 4.5s; }
+        .terminal-line:nth-child(4) { animation-delay: 6.5s; }
+
+        @keyframes typing {
+            from { width: 0; opacity: 1; }
+            to { width: 100%; opacity: 1; border-right: none; }
+        }
+
+        .enter-btn {
+            background: transparent;
+            border: 3px solid var(--primary);
+            color: var(--primary);
+            padding: 1.5rem 4rem;
+            font-size: 1.4rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            cursor: pointer;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--glow-effect);
+            margin-top: 2rem;
+            border-radius: 50px;
+            animation: pulseGlow 2s infinite;
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% { box-shadow: 0 0 30px var(--primary-glow); }
+            50% { box-shadow: 0 0 60px var(--primary-glow); }
+        }
+
+        .enter-btn:hover {
+            color: var(--dark);
+            transform: scale(1.1);
+            letter-spacing: 6px;
+        }
+
+        .enter-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--primary);
+            transition: var(--transition);
+            z-index: -1;
+        }
+
+        .enter-btn:hover::before {
+            left: 0;
+        }
+
+        /* ===== MAIN PORTFOLIO ===== */
+        .main-portfolio {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.8s ease;
+        }
+
+        .main-portfolio.visible {
+            display: block;
+            opacity: 1;
+        }
+
+        /* ===== CUSTOM CURSOR ===== */
+        .cursor {
+            width: 10px;
+            height: 10px;
+            background: var(--primary);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            mix-blend-mode: difference;
+            transition: transform 0.2s;
+        }
+
+        .cursor-follower {
+            width: 40px;
+            height: 40px;
+            border: 2px solid var(--primary);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9998;
+            transition: transform 0.4s;
+        }
+
+        /* ===== NAVIGATION ===== */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: var(--nav-bg);
+            backdrop-filter: blur(15px);
+            z-index: 100;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--primary);
+            text-shadow: 0 0 15px var(--primary-glow);
+            letter-spacing: -1px;
+            cursor: pointer;
+            font-family: 'Orbitron', sans-serif;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .logo::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: -100%;
+            width: 100%;
+            height: 2px;
+            background: var(--primary);
+            transition: var(--transition);
+        }
+
+        .logo:hover::after {
+            left: 0;
+        }
+
+        /* ===== TAB NAVIGATION ===== */
+        .tab-nav {
+            display: flex;
+            gap: 0.8rem;
+            background: var(--card-bg);
+            padding: 0.7rem;
+            border-radius: 60px;
+            border: 1px solid var(--border-color);
+            backdrop-filter: blur(10px);
+            box-shadow: var(--shadow);
+        }
+
+        .tab-btn {
+            padding: 0.9rem 2.2rem;
+            background: transparent;
+            border: none;
+            color: var(--text-tertiary);
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            border-radius: 50px;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tab-btn::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 3px;
+            background: var(--primary);
+            transition: var(--transition);
+            border-radius: 3px;
+        }
+
+        .tab-btn:hover {
+            color: var(--primary);
+            background: rgba(0, 255, 157, 0.1);
+        }
+
+        .tab-btn:hover::before {
+            width: 60%;
+        }
+
+        .tab-btn.active {
+            color: var(--primary);
+            background: rgba(0, 255, 157, 0.15);
+            box-shadow: 0 0 25px rgba(0, 255, 157, 0.3);
+        }
+
+        .tab-btn.active::before {
+            width: 80%;
+        }
+
+        .theme-toggle {
+            cursor: pointer;
+            font-size: 1.2rem;
+            color: var(--text-primary);
+            transition: var(--transition);
+        }
+
+        .theme-toggle:hover {
+            color: var(--primary);
+            transform: rotate(180deg);
+        }
+
+        .hamburger {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* ===== QUOTE SECTION ===== */
+        .quote-section {
+            padding: 4rem 0;
+            background: var(--quote-bg);
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+            margin: 2rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .quote-section::before {
+            content: '"';
+            position: absolute;
+            top: -50px;
+            left: 20px;
+            font-size: 15rem;
+            color: var(--primary);
+            opacity: 0.1;
+            font-family: serif;
+        }
+
+        .quote-section::after {
+            content: '"';
+            position: absolute;
+            bottom: -100px;
+            right: 20px;
+            font-size: 15rem;
+            color: var(--primary);
+            opacity: 0.1;
+            font-family: serif;
+        }
+
+        .quote-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .quote-text {
+            font-size: 2rem;
+            font-weight: 500;
+            text-align: center;
+            color: var(--text-primary);
+            line-height: 1.4;
+            font-family: 'Orbitron', sans-serif;
+            margin-bottom: 1.5rem;
+        }
+
+        .quote-author {
+            text-align: center;
+            color: var(--primary);
+            font-size: 1.2rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        .quote-author::before {
+            content: '— ';
+        }
+
+        .quote-author::after {
+            content: ' —';
+        }
+
+        .quote-rotator {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 2rem;
+        }
+
+        .quote-dot {
+            width: 10px;
+            height: 10px;
+            border: 2px solid var(--primary);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .quote-dot.active {
+            background: var(--primary);
+            transform: scale(1.3);
+        }
+
+        /* ===== TAB CONTENT ===== */
+        .tab-content {
+            margin-top: 90px;
+            min-height: calc(100vh - 90px);
+        }
+
+        .tab-pane {
+            display: none;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .tab-pane.active {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ===== HERO SECTION ===== */
+        .hero {
+            min-height: calc(100vh - 90px);
+            display: flex;
+            align-items: center;
+            padding: 0 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 70% 50%, var(--primary-glow) 0%, transparent 60%);
+            opacity: 0.15;
+            pointer-events: none;
+        }
+
+        .hero-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .hero-subtitle {
+            color: var(--primary);
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .hero-title {
+            font-size: clamp(3rem, 10vw, 6rem);
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .hero-title .highlight {
+            color: var(--primary);
+            text-shadow: 0 0 30px var(--primary-glow);
+            position: relative;
+            display: inline-block;
+        }
+
+        .hero-title .highlight::after {
+            content: '';
+            position: absolute;
+            bottom: 10px;
+            left: 0;
+            width: 100%;
+            height: 15px;
+            background: var(--primary);
+            opacity: 0.2;
+            filter: blur(5px);
+        }
+
+        .hero-description {
+            font-size: 1.3rem;
+            max-width: 700px;
+            margin-bottom: 3rem;
+            color: var(--text-secondary);
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 4rem;
+            margin: 3rem 0;
+        }
+
+        .stat-item {
+            text-align: left;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--primary);
+            line-height: 1;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            color: var(--text-tertiary);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        /* ===== ABOUT SECTION ===== */
+        .about-section {
+            padding: 5rem 2rem;
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: start;
+        }
+
+        .terminal-window {
+            background: var(--terminal-bg);
+            border: 2px solid var(--primary);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            font-family: 'Roboto Mono', monospace;
+            box-shadow: var(--glow-effect);
+            transition: var(--transition);
+            margin-top: 2rem;
+        }
+
+        .terminal-window:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 30px 50px -20px var(--primary-glow);
+        }
+
+        .terminal-header {
+            display: flex;
+            gap: 0.8rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--primary);
+        }
+
+        .terminal-dot {
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background: #ff5f56;
+        }
+
+        .terminal-dot:nth-child(2) { background: #ffbd2e; }
+        .terminal-dot:nth-child(3) { background: #27c93f; }
+
+        .terminal-text {
+            color: var(--primary);
+            line-height: 2;
+            font-size: 1rem;
+        }
+
+        .terminal-prompt {
+            color: var(--primary);
+            margin-right: 0.8rem;
+            font-weight: bold;
+        }
+
+        .typewriter {
+            overflow: hidden;
+            border-right: 2px solid var(--primary);
+            white-space: nowrap;
+            animation: typewriter 4s steps(40) 1s 1 normal both,
+                       blinkTextCursor 0.5s steps(40) infinite normal;
+        }
+
+        /* ===== SKILLS SECTION ===== */
+        .skills-section {
+            padding: 5rem 2rem;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .skill-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 2.5rem;
+            border-radius: var(--border-radius);
+            backdrop-filter: blur(10px);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .skill-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary), var(--purple-accent));
+            transform: scaleX(0);
+            transition: var(--transition);
+            transform-origin: left;
+        }
+
+        .skill-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .skill-card:hover {
+            transform: translateY(-15px) scale(1.02);
+            border-color: var(--primary);
+            box-shadow: var(--glow-effect);
+        }
+
+        .skill-icon {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            transition: var(--transition);
+        }
+
+        .skill-card:hover .skill-icon {
+            transform: rotate(360deg);
+        }
+
+        .skill-title {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+        }
+
+        .skill-items {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .skill-badge {
+            padding: 0.5rem 1.2rem;
+            background: rgba(0, 255, 157, 0.1);
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            border-radius: 30px;
+            font-size: 0.9rem;
+            transition: var(--transition);
+            cursor: default;
+        }
+
+        .skill-badge:hover {
+            background: var(--primary);
+            color: var(--dark);
+            transform: scale(1.1) rotate(2deg);
+            box-shadow: 0 0 25px var(--primary-glow);
+        }
+
+        /* ===== PROJECTS SECTION ===== */
+        .work-section {
+            padding: 5rem 2rem;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .project-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            transition: var(--transition);
+            position: relative;
+            height: 100%;
+        }
+
+        .project-card:hover {
+            transform: translateY(-15px) scale(1.02);
+            border-color: var(--primary);
+            box-shadow: var(--glow-effect);
+        }
+
+        .project-header {
+            height: 200px;
+            background: linear-gradient(135deg, var(--navy-light), var(--navy-lighter));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .project-header::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, transparent, rgba(0,255,157,0.2));
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .project-card:hover .project-header::after {
+            opacity: 1;
+        }
+
+        .project-header i {
+            font-size: 5rem;
+            color: var(--primary);
+            transition: var(--transition);
+            z-index: 2;
+        }
+
+        .project-card:hover .project-header i {
+            transform: scale(1.2) rotate(10deg);
+            text-shadow: 0 0 40px var(--primary);
+        }
+
+        .project-body {
+            padding: 2rem;
+        }
+
+        .project-title {
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .project-desc {
+            color: var(--text-tertiary);
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .project-tech {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .project-tech span {
+            padding: 0.3rem 1rem;
+            background: rgba(0, 255, 157, 0.1);
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            border-radius: var(--border-radius);
+            font-size: 0.8rem;
+        }
+
+        .project-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .project-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: var(--transition);
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .project-link:hover {
+            color: var(--primary);
+            transform: translateX(5px);
+        }
+
+        /* ===== CV SECTION ===== */
+        .cv-section {
+            padding: 5rem 2rem;
+        }
+
+        .cv-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .cv-actions {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            margin-bottom: 4rem;
+        }
+
+        .cv-btn {
+            padding: 1.2rem 3rem;
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            cursor: pointer;
+            font-size: 1rem;
+            border-radius: 50px;
+        }
+
+        .cv-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--primary);
+            transition: var(--transition);
+            z-index: -1;
+        }
+
+        .cv-btn:hover {
+            color: var(--dark);
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px -10px var(--primary-glow);
+        }
+
+        .cv-btn:hover::before {
+            left: 0;
+        }
+
+        .cv-viewer {
+            background: var(--card-bg);
+            border: 2px solid var(--border-color);
+            border-radius: var(--border-radius);
+            padding: 3rem;
+            margin-top: 2rem;
+            backdrop-filter: blur(10px);
+            box-shadow: var(--shadow);
+        }
+
+        .cv-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 2px solid var(--primary);
+        }
+
+        .cv-name {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .cv-title {
+            color: var(--text-tertiary);
+            font-size: 1.2rem;
+            letter-spacing: 2px;
+        }
+
+        .cv-grid {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 3rem;
+        }
+
+        .cv-sidebar {
+            border-right: 1px solid var(--border-color);
+            padding-right: 2rem;
+        }
+
+        .cv-section-title {
+            color: var(--primary);
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            position: relative;
+        }
+
+        .cv-section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 40px;
+            height: 3px;
+            background: var(--primary);
+        }
+
+        .cv-item {
+            margin-bottom: 2rem;
+        }
+
+        .cv-item-title {
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+            font-size: 1.1rem;
+        }
+
+        .cv-item-subtitle {
+            color: var(--text-tertiary);
+            font-size: 1rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .cv-item-date {
+            color: var(--primary);
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .new-badge {
+            display: inline-block;
+            background: var(--primary);
+            color: var(--dark);
+            padding: 0.2rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            margin-left: 1rem;
+            font-weight: bold;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* ===== CONTACT SECTION ===== */
+        .contact-section {
+            padding: 5rem 2rem;
+        }
+
+        .contact-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .contact-form {
+            background: var(--card-bg);
+            border: 2px solid var(--border-color);
+            border-radius: var(--border-radius);
+            padding: 3rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .form-group {
+            margin-bottom: 2rem;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 1.2rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            font-family: 'Space Grotesk', sans-serif;
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+            font-size: 1rem;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: var(--glow-effect);
+            transform: translateY(-3px);
+        }
+
+        .form-group textarea {
+            min-height: 200px;
+            resize: vertical;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 1.5rem;
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            font-size: 1.1rem;
+            border-radius: 50px;
+        }
+
+        .submit-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--primary);
+            transition: var(--transition);
+            z-index: -1;
+        }
+
+        .submit-btn:hover {
+            color: var(--dark);
+        }
+
+        .submit-btn:hover::before {
+            left: 0;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media screen and (max-width: 968px) {
+            .tab-nav {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: var(--nav-bg);
+                padding: 1rem;
+                flex-direction: column;
+                border-radius: 0;
+                border: none;
+                border-bottom: 1px solid var(--border-color);
+            }
+
+            .tab-nav.active {
+                display: flex;
+            }
+
+            .hamburger {
+                display: block;
+            }
+
+            .hero-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .hero-photo {
+                order: -1;
+                max-width: 300px;
+                margin: 0 auto;
+            }
+
+            .about-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .cv-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .cv-sidebar {
+                border-right: none;
+                padding-right: 0;
+            }
+
+            .hero-stats {
+                flex-wrap: wrap;
+                gap: 2rem;
+            }
+
+            .quote-text {
+                font-size: 1.5rem;
+            }
+
+            .music-control {
+                bottom: 20px;
+                right: 20px;
+                padding: 0.5rem 1rem;
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .cv-actions {
+                flex-direction: column;
+            }
+
+            .cv-btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body data-theme="dark">
+    <!-- Custom Cursor -->
+    <div class="cursor"></div>
+    <div class="cursor-follower"></div>
+
+    <!-- Music Player Control -->
+    <div class="music-control">
+        <button class="music-btn" id="musicToggle">
+            <i class="fas fa-play"></i>
+        </button>
+        <div class="volume-slider" id="volumeSlider">
+            <div class="volume-fill" id="volumeFill" style="width: 50%;"></div>
+        </div>
+    </div>
+
+    <!-- Splash Screen -->
+    <div class="splash-screen" id="splashScreen">
+        <div class="matrix-bg" id="matrixBg"></div>
+        <div class="splash-content">
+            <h1 class="splash-title">NEWTON HUB</h1>
+            <p class="splash-subtitle" style="color: var(--primary); letter-spacing: 5px;">// SYSTEM INITIALIZATION //</p>
+            
+            <div class="splash-terminal">
+                <div class="terminal-line">> Initializing portfolio system...</div>
+                <div class="terminal-line">> Loading security protocols...</div>
+                <div class="terminal-line">> Establishing secure connection...</div>
+                <div class="terminal-line">> Access granted. Welcome to Newton Hub.</div>
+            </div>
+            
+            <button class="enter-btn" onclick="enterPortfolio()">ENTER THE MATRIX</button>
+        </div>
+    </div>
+
+    <!-- Main Portfolio -->
+    <div class="main-portfolio" id="mainPortfolio">
+        <!-- Navigation -->
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="logo" onclick="window.location.reload()">[NH]</div>
+                
+                <!-- Tab Navigation -->
+                <div class="tab-nav" id="tabNav">
+                    <button class="tab-btn active" onclick="switchTab('home')">_hello</button>
+                    <button class="tab-btn" onclick="switchTab('about')">_about</button>
+                    <button class="tab-btn" onclick="switchTab('skills')">_skills</button>
+                    <button class="tab-btn" onclick="switchTab('work')">_work</button>
+                    <button class="tab-btn" onclick="switchTab('cv')">_cv</button>
+                    <button class="tab-btn" onclick="switchTab('contact')">_contact</button>
+                </div>
+                
+                <div class="theme-toggle" onclick="toggleTheme()">
+                    <i class="fas fa-moon"></i>
+                </div>
+                <div class="hamburger" onclick="toggleMenu()">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Quote Section -->
+        <div class="quote-section" id="quoteSection">
+            <div class="quote-container">
+                <div class="quote-text" id="quoteText">
+                    "The only secure system is the one that's powered off."
+                </div>
+                <div class="quote-author" id="quoteAuthor">Gene Spafford</div>
+                <div class="quote-rotator">
+                    <span class="quote-dot active" onclick="changeQuote(0)"></span>
+                    <span class="quote-dot" onclick="changeQuote(1)"></span>
+                    <span class="quote-dot" onclick="changeQuote(2)"></span>
+                    <span class="quote-dot" onclick="changeQuote(3)"></span>
+                    <span class="quote-dot" onclick="changeQuote(4)"></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab Content -->
+        <div class="tab-content">
+            <!-- Home Tab with Typing and Photo -->
+            <div class="tab-pane active" id="home-tab">
+                <section class="hero">
+                    <div class="hero-content">
+                        <div class="hero-grid">
+                            <div class="hero-text">
+                                <div class="hero-subtitle">
+                                    <span class="line" style="width: 50px; height: 2px; background: var(--primary);"></span>
+                                    <span>SYSTEM ONLINE</span>
+                                </div>
+                                
+                                <!-- Live Typing Effect for Home -->
+                                <div class="typing-container hero-typing">
+                                    <span class="typing-prefix">CURRENT ROLE:</span>
+                                    <span class="typing-text" id="homeTyping"></span>
+                                </div>
+                                
+                                <h1 class="hero-title">
+                                    NEWTON ASHA<br>
+                                    <span class="highlight">OMBUYA</span>
+                                </h1>
+                                <p class="hero-description">
+                                    Software Engineering Student & Cybersecurity Enthusiast. 
+                                    Cisco Trainer shaping the next generation of tech professionals.
+                                </p>
+                                <div class="hero-stats">
+                                    <div class="stat-item">
+                                        <div class="stat-number">3+</div>
+                                        <div class="stat-label">Years Coding</div>
+                                    </div>
+                                    <div class="stat-item">
+                                        <div class="stat-number">50+</div>
+                                        <div class="stat-label">Students Trained</div>
+                                    </div>
+                                    <div class="stat-item">
+                                        <div class="stat-number">7</div>
+                                        <div class="stat-label">Certifications</div>
+                                    </div>
+                                </div>
+                                <div class="hero-cta">
+                                    <button class="cv-btn" onclick="switchTab('work')" style="margin-right: 1rem;">VIEW WORK</button>
+                                    <button class="cv-btn" onclick="switchTab('cv')">VIEW CV</button>
+                                </div>
+                            </div>
+                            
+                            <!-- Photo in Hero Section -->
+                            <div class="hero-photo">
+                                <div class="photo-frame">
+                                    <img src="api/placeholder/400/400" alt="Newton Asha OMBUYA" class="profile-photo" id="heroPhoto">
+                                    <div class="photo-badge">#TechLeader</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- About Tab with Typing and Photo -->
+            <div class="tab-pane" id="about-tab">
+                <section class="about-section">
+                    <div class="section-container" style="max-width: 1400px; margin: 0 auto;">
+                        <div class="section-header" style="text-align: center; margin-bottom: 4rem;">
+                            <div class="section-subtitle" style="color: var(--primary); font-size: 1rem; letter-spacing: 4px;">_01. ABOUT</div>
+                            <h2 class="section-title" style="font-size: 3rem; font-family: 'Orbitron', sans-serif;">whoami</h2>
+                            
+                            <!-- Live Typing Effect for About -->
+                            <div class="typing-container section-typing">
+                                <span class="typing-prefix">PERSONALITY TYPE:</span>
+                                <span class="typing-text" id="aboutTyping"></span>
+                            </div>
+                        </div>
+                        
+                        <div class="about-grid">
+                            <div>
+                                <!-- Photo in About Section -->
+                                <div class="about-photo">
+                                    <div class="photo-frame">
+                                        <img src="api/placeholder/350/350" alt="Newton Asha OMBUYA" class="profile-photo">
+                                    </div>
+                                </div>
+                                
+                                <div class="terminal-window">
+                                    <div class="terminal-header">
+                                        <span class="terminal-dot"></span>
+                                        <span class="terminal-dot"></span>
+                                        <span class="terminal-dot"></span>
+                                    </div>
+                                    <div class="terminal-text">
+                                        <div><span class="terminal-prompt">$</span> <span class="typewriter">whoami</span></div>
+                                        <div style="margin-left: 1.5rem;">Newton Asha OMBUYA</div>
+                                        <div style="margin-top: 1rem;"><span class="terminal-prompt">$</span> cat bio.txt</div>
+                                        <div style="margin-left: 1.5rem;">> Software Engineering Student</div>
+                                        <div style="margin-left: 1.5rem;">> Cisco Networking Trainer</div>
+                                        <div style="margin-left: 1.5rem;">> Cybersecurity Enthusiast</div>
+                                        <div style="margin-left: 1.5rem;">> Ethical Hacker</div>
+                                        <div style="margin-top: 1rem;"><span class="terminal-prompt">$</span> skills --list</div>
+                                        <div style="margin-left: 1.5rem;">[Networking] [Security] [Development] [Cloud]</div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <p style="font-size: 1.2rem; margin-bottom: 2rem; color: var(--text-secondary);">
+                                    Motivated Software Engineering student and networking trainer with practical 
+                                    experience in networking labs, IT support, and technical training.
+                                </p>
+                                <p style="margin-bottom: 2rem; color: var(--text-tertiary); font-size: 1rem; line-height: 1.8;">
+                                    Skilled in networking fundamentals, system setup, troubleshooting, and cybersecurity 
+                                    basics. Passionate about cloud networking, ethical hacking, and supporting learners 
+                                    in developing technical skills.
+                                </p>
+                                <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                                    <div style="background: var(--card-bg); padding: 0.8rem 1.5rem; border: 1px solid var(--border-color); border-radius: 50px;">
+                                        <i class="fas fa-map-marker-alt" style="color: var(--primary); margin-right: 0.5rem;"></i>
+                                        Nairobi, Kenya
+                                    </div>
+                                    <div style="background: var(--card-bg); padding: 0.8rem 1.5rem; border: 1px solid var(--border-color); border-radius: 50px;">
+                                        <i class="fas fa-phone" style="color: var(--primary); margin-right: 0.5rem;"></i>
+                                        0743 270114
+                                    </div>
+                                    <div style="background: var(--card-bg); padding: 0.8rem 1.5rem; border: 1px solid var(--border-color); border-radius: 50px;">
+                                        <i class="fas fa-language" style="color: var(--primary); margin-right: 0.5rem;"></i>
+                                        EN | SW | LUO
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Skills Tab with Typing -->
+            <div class="tab-pane" id="skills-tab">
+                <section class="skills-section">
+                    <div class="section-container" style="max-width: 1400px; margin: 0 auto;">
+                        <div class="section-header" style="text-align: center; margin-bottom: 4rem;">
+                            <div class="section-subtitle" style="color: var(--primary); font-size: 1rem; letter-spacing: 4px;">_02. SKILLS</div>
+                            <h2 class="section-title" style="font-size: 3rem; font-family: 'Orbitron', sans-serif;">technical arsenal</h2>
+                            
+                            <!-- Live Typing Effect for Skills -->
+                            <div class="typing-container section-typing">
+                                <span class="typing-prefix">EXPERTISE LEVEL:</span>
+                                <span class="typing-text" id="skillsTyping"></span>
+                            </div>
+                        </div>
+                        
+                        <div class="skills-grid">
+                            <div class="skill-card">
+                                <div class="skill-icon">
+                                    <i class="fas fa-network-wired"></i>
+                                </div>
+                                <h3 class="skill-title">Networking</h3>
+                                <div class="skill-items">
+                                    <span class="skill-badge">Cisco</span>
+                                    <span class="skill-badge">TCP/IP</span>
+                                    <span class="skill-badge">OSPF</span>
+                                    <span class="skill-badge">BGP</span>
+                                    <span class="skill-badge">VLAN</span>
+                                    <span class="skill-badge">Wireshark</span>
+                                    <span class="skill-badge">Subnetting</span>
+                                    <span class="skill-badge">DNS/DHCP</span>
+                                </div>
+                            </div>
+                            
+                            <div class="skill-card">
+                                <div class="skill-icon">
+                                    <i class="fas fa-shield-halved"></i>
+                                </div>
+                                <h3 class="skill-title">Cybersecurity</h3>
+                                <div class="skill-items">
+                                    <span class="skill-badge">Kali Linux</span>
+                                    <span class="skill-badge">Metasploit</span>
+                                    <span class="skill-badge">Nmap</span>
+                                    <span class="skill-badge">Burp Suite</span>
+                                    <span class="skill-badge">Firewalls</span>
+                                    <span class="skill-badge">IDS/IPS</span>
+                                    <span class="skill-badge">OWASP</span>
+                                    <span class="skill-badge">Wireshark</span>
+                                </div>
+                            </div>
+                            
+                            <div class="skill-card">
+                                <div class="skill-icon">
+                                    <i class="fas fa-code"></i>
+                                </div>
+                                <h3 class="skill-title">Development</h3>
+                                <div class="skill-items">
+                                    <span class="skill-badge">JavaScript</span>
+                                    <span class="skill-badge">Python</span>
+                                    <span class="skill-badge">Node.js</span>
+                                    <span class="skill-badge">React</span>
+                                    <span class="skill-badge">HTML/CSS</span>
+                                    <span class="skill-badge">Bash</span>
+                                    <span class="skill-badge">SQL</span>
+                                    <span class="skill-badge">Git</span>
+                                </div>
+                            </div>
+                            
+                            <div class="skill-card">
+                                <div class="skill-icon">
+                                    <i class="fas fa-cloud"></i>
+                                </div>
+                                <h3 class="skill-title">Cloud & DevOps</h3>
+                                <div class="skill-items">
+                                    <span class="skill-badge">AWS</span>
+                                    <span class="skill-badge">Docker</span>
+                                    <span class="skill-badge">Kubernetes</span>
+                                    <span class="skill-badge">Jenkins</span>
+                                    <span class="skill-badge">Terraform</span>
+                                    <span class="skill-badge">Linux</span>
+                                    <span class="skill-badge">CI/CD</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Work Tab with Typing -->
+            <div class="tab-pane" id="work-tab">
+                <section class="work-section">
+                    <div class="section-container" style="max-width: 1400px; margin: 0 auto;">
+                        <div class="section-header" style="text-align: center; margin-bottom: 4rem;">
+                            <div class="section-subtitle" style="color: var(--primary); font-size: 1rem; letter-spacing: 4px;">_03. WORK</div>
+                            <h2 class="section-title" style="font-size: 3rem; font-family: 'Orbitron', sans-serif;">featured projects</h2>
+                            
+                            <!-- Live Typing Effect for Work -->
+                            <div class="typing-container section-typing">
+                                <span class="typing-prefix">CURRENT FOCUS:</span>
+                                <span class="typing-text" id="workTyping"></span>
+                            </div>
+                        </div>
+                        
+                        <div class="projects-grid" id="projectsGrid"></div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- CV Tab with Typing and Photo -->
+            <div class="tab-pane" id="cv-tab">
+                <section class="cv-section">
+                    <div class="cv-container">
+                        <div class="section-header" style="text-align: center; margin-bottom: 4rem;">
+                            <div class="section-subtitle" style="color: var(--primary); font-size: 1rem; letter-spacing: 4px;">_04. CV</div>
+                            <h2 class="section-title" style="font-size: 3rem; font-family: 'Orbitron', sans-serif;">curriculum vitae</h2>
+                            
+                            <!-- Live Typing Effect for CV -->
+                            <div class="typing-container section-typing">
+                                <span class="typing-prefix">EXPERIENCE:</span>
+                                <span class="typing-text" id="cvTyping"></span>
+                            </div>
+                        </div>
+                        
+                        <div class="cv-actions">
+                            <button class="cv-btn" onclick="viewCVOnline()">VIEW ONLINE</button>
+                            <button class="cv-btn" onclick="downloadCV()">DOWNLOAD PDF</button>
+                        </div>
+                        
+                        <div class="cv-viewer" id="cvViewer">
+                            <!-- Photo in CV Section -->
+                            <img src="api/placeholder/150/150" alt="Newton Asha OMBUYA" class="cv-photo" id="cvPhoto">
+                            
+                            <div class="cv-header">
+                                <h1 class="cv-name">NEWTON ASHA OMBUYA</h1>
+                                <div class="cv-title">Software Engineering Student & Networking Trainer</div>
+                            </div>
+                            
+                            <div class="cv-grid">
+                                <div class="cv-sidebar">
+                                    <div class="cv-item">
+                                        <h3 class="cv-section-title">CONTACT</h3>
+                                        <p><i class="fas fa-phone" style="color: var(--primary); width: 25px;"></i> 0743 270114</p>
+                                        <p><i class="fas fa-envelope" style="color: var(--primary); width: 25px;"></i> ombuyanewton@gmail.com</p>
+                                        <p><i class="fas fa-map-marker" style="color: var(--primary); width: 25px;"></i> Nairobi, Kenya</p>
+                                    </div>
+                                    
+                                    <div class="cv-item">
+                                        <h3 class="cv-section-title">LANGUAGES</h3>
+                                        <p>English (Fluent)</p>
+                                        <p>Kiswahili (Fluent)</p>
+                                        <p>Luo (Native)</p>
+                                    </div>
+                                    
+                                    <div class="cv-item">
+                                        <h3 class="cv-section-title">CERTIFICATIONS</h3>
+                                        <p>• Introduction to Cybersecurity</p>
+                                        <p>• Networking Fundamentals</p>
+                                        <p>• Modern AI Certification</p>
+                                        <p>• Ethical Hacking Training</p>
+                                        <p>• IT Support Training</p>
+                                        <p>• AI Essentials for Software Developers <span class="new-badge">NEW</span></p>
+                                    </div>
+                                </div>
+                                
+                                <div class="cv-main">
+                                    <div class="cv-item">
+                                        <h3 class="cv-section-title">PROFESSIONAL SUMMARY</h3>
+                                        <p style="color: var(--text-secondary);">Motivated Software Engineering student and networking trainer with practical experience in networking labs, IT support, and technical training. Skilled in networking fundamentals, system setup, troubleshooting, and cybersecurity basics. Passionate about cloud networking, ethical hacking, and supporting learners in developing technical skills.</p>
+                                    </div>
+                                    
+                                    <div class="cv-item">
+                                        <h3 class="cv-section-title">WORK EXPERIENCE</h3>
+                                        <div style="margin-bottom: 2rem;">
+                                            <div class="cv-item-title">Cisco Trainer</div>
+                                            <div class="cv-item-subtitle">Missions of Hope International (MOHI) - Namarei Centre</div>
+                                            <div class="cv-item-date">Feb 2025 - Present</div>
+                                            <ul style="margin-top: 0.8rem; margin-left: 1.5rem; color: var(--text-tertiary);">
+                                                <li>Deliver networking and IT training using Cisco Networking Academy curriculum</li>
+                                                <li>Guide students through practical labs and networking setup</li>
+                                                <li>Maintain computer networking lab environment</li>
+                                                <li>Support students with troubleshooting and technical assignments</li>
+                                            </ul>
+                                        </div>
+                                        
+                                        <div>
+                                            <div class="cv-item-title">Cisco Networking Training Assistant</div>
+                                            <div class="cv-item-subtitle">Missions of Hope International (MOHI)</div>
+                                            <div class="cv-item-date">2024 - 2025</div>
+                                            <ul style="margin-top: 0.8rem; margin-left: 1.5rem; color: var(--text-tertiary);">
+                                                <li>Assisted in networking and IT training sessions</li>
+                                                <li>Supported practical lab activities</li>
+                                                <li>Helped students understand networking basics</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="cv-item">
+                                        <h3 class="cv-section-title">EDUCATION</h3>
+                                        <div style="margin-bottom: 1.5rem;">
+                                            <div class="cv-item-title">Diploma in Software Engineering</div>
+                                            <div class="cv-item-subtitle">Mohi Technical Training Institute</div>
+                                            <div class="cv-item-date">2024 - Present</div>
+                                        </div>
+                                        <div style="margin-bottom: 1.5rem;">
+                                            <div class="cv-item-title">AI Essentials for Software Developers</div>
+                                            <div class="cv-item-subtitle">Moringa School</div>
+                                            <div class="cv-item-date">Feb 2026 - 20th Feb 2026</div>
+                                        </div>
+                                        <div>
+                                            <div class="cv-item-title">KCSE</div>
+                                            <div class="cv-item-subtitle">Gathiru-ini Boys' High School</div>
+                                            <div class="cv-item-date">2020 - 2023</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Contact Tab with Typing -->
+            <div class="tab-pane" id="contact-tab">
+                <section class="contact-section">
+                    <div class="contact-container">
+                        <div class="section-header" style="text-align: center; margin-bottom: 4rem;">
+                            <div class="section-subtitle" style="color: var(--primary); font-size: 1rem; letter-spacing: 4px;">_05. CONTACT</div>
+                            <h2 class="section-title" style="font-size: 3rem; font-family: 'Orbitron', sans-serif;">get_in_touch</h2>
+                            
+                            <!-- Live Typing Effect for Contact -->
+                            <div class="typing-container section-typing">
+                                <span class="typing-prefix">AVAILABILITY:</span>
+                                <span class="typing-text" id="contactTyping"></span>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-form">
+                            <form action="https://formsubmit.co/ombuyanewton@gmail.com" method="POST" id="contactForm">
+                                <input type="hidden" name="_subject" value="New Contact from Newton Hub">
+                                <input type="hidden" name="_template" value="table">
+                                <input type="hidden" name="_captcha" value="false">
+                                <input type="hidden" name="_autoresponse" value="Thank you for contacting me! I'll respond within 24 hours.">
+                                <input type="text" name="_honey" style="display: none;">
+                                
+                                <div class="form-group">
+                                    <input type="text" name="name" placeholder="Your Name" required>
+                                </div>
+                                <div class="form-group">
+                                    <input type="email" name="email" placeholder="Your Email" required>
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" name="subject" placeholder="Subject" required>
+                                </div>
+                                <div class="form-group">
+                                    <textarea name="message" placeholder="Your Message" required></textarea>
+                                </div>
+                                <button type="submit" class="submit-btn">SEND MESSAGE</button>
+                            </form>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Audio Context for ambient beat - FIXED VERSION
+        let audioContext;
+        let isPlaying = false;
+        let gainNode;
+        let osc1, osc2, osc3;
+        let isAudioInitialized = false;
+
+        // Initialize audio on user interaction (required by browsers)
+        function initAudio() {
+            if (!audioContext) {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                gainNode = audioContext.createGain();
+                gainNode.connect(audioContext.destination);
+                gainNode.gain.value = 0.5; // Medium volume (0.5 out of 1)
+                
+                isAudioInitialized = true;
+            }
+            
+            // Resume audio context if suspended
+            if (audioContext.state === 'suspended') {
+                audioContext.resume();
+            }
+        }
+
+        function createAmbientBeat() {
+            if (!audioContext || !isPlaying) return;
+            
+            // Stop previous oscillators if they exist
+            if (osc1) osc1.stop();
+            if (osc2) osc2.stop();
+            if (osc3) osc3.stop();
+            
+            const now = audioContext.currentTime;
+            
+            // Create bass pad (very audible)
+            osc1 = audioContext.createOscillator();
+            osc1.type = 'sine';
+            osc1.frequency.value = 80; // Bass frequency
+            
+            // Create mid melody
+            osc2 = audioContext.createOscillator();
+            osc2.type = 'triangle';
+            osc2.frequency.value = 160; // Mid frequency
+            
+            // Create hi-hat rhythm
+            osc3 = audioContext.createOscillator();
+            osc3.type = 'sawtooth';
+            osc3.frequency.value = 320; // Higher frequency
+            
+            // Create gain nodes for each oscillator
+            const gain1 = audioContext.createGain();
+            const gain2 = audioContext.createGain();
+            const gain3 = audioContext.createGain();
+            
+            gain1.gain.value = 0.4;
+            gain2.gain.value = 0.3;
+            gain3.gain.value = 0.2;
+            
+            // Connect oscillators to their gain nodes
+            osc1.connect(gain1);
+            osc2.connect(gain2);
+            osc3.connect(gain3);
+            
+            // Connect gain nodes to main gain
+            gain1.connect(gainNode);
+            gain2.connect(gainNode);
+            gain3.connect(gainNode);
+            
+            // Start oscillators
+            osc1.start();
+            osc2.start();
+            osc3.start();
+            
+            // Create rhythm pattern
+            function createRhythm() {
+                if (!isPlaying) return;
+                
+                const now = audioContext.currentTime;
+                
+                // Bass drum pattern (every 2 seconds)
+                gain1.gain.setValueAtTime(0.6, now);
+                gain1.gain.exponentialRampToValueAtTime(0.1, now + 0.3);
+                
+                // Melody pattern
+                setTimeout(() => {
+                    if (isPlaying) {
+                        gain2.gain.setValueAtTime(0.5, audioContext.currentTime);
+                        gain2.gain.exponentialRampToValueAtTime(0.1, audioContext.currentTime + 0.2);
+                        
+                        // Change pitch slightly for melody
+                        osc2.frequency.setValueAtTime(180, audioContext.currentTime);
+                        setTimeout(() => {
+                            if (isPlaying) osc2.frequency.setValueAtTime(160, audioContext.currentTime);
+                        }, 300);
+                    }
+                }, 500);
+                
+                // Hi-hat pattern
+                setTimeout(() => {
+                    if (isPlaying) {
+                        gain3.gain.setValueAtTime(0.3, audioContext.currentTime);
+                        gain3.gain.exponentialRampToValueAtTime(0.05, audioContext.currentTime + 0.1);
+                    }
+                }, 1000);
+                
+                setTimeout(() => {
+                    if (isPlaying) {
+                        gain3.gain.setValueAtTime(0.3, audioContext.currentTime);
+                        gain3.gain.exponentialRampToValueAtTime(0.05, audioContext.currentTime + 0.1);
+                    }
+                }, 1500);
+                
+                // Schedule next rhythm
+                setTimeout(createRhythm, 2000);
+            }
+            
+            // Start rhythm pattern
+            createRhythm();
+        }
+
+        function toggleMusic() {
+            const btn = document.getElementById('musicToggle');
+            const icon = btn.querySelector('i');
+            
+            // Initialize audio on first click
+            initAudio();
+            
+            if (!isPlaying) {
+                // Start playing
+                isPlaying = true;
+                icon.className = 'fas fa-pause';
+                createAmbientBeat();
+                
+                // Show notification that music is playing
+                console.log('Music started - volume at 50%');
+            } else {
+                // Stop playing
+                isPlaying = false;
+                icon.className = 'fas fa-play';
+                
+                // Stop all oscillators
+                if (osc1) {
+                    osc1.stop();
+                    osc1 = null;
+                }
+                if (osc2) {
+                    osc2.stop();
+                    osc2 = null;
+                }
+                if (osc3) {
+                    osc3.stop();
+                    osc3 = null;
+                }
+            }
+        }
+
+        // Volume control - FIXED
+        document.getElementById('volumeSlider').addEventListener('click', (e) => {
+            const rect = e.currentTarget.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const width = rect.width;
+            const volume = Math.max(0, Math.min(1, x / width));
+            
+            document.getElementById('volumeFill').style.width = (volume * 100) + '%';
+            
+            if (gainNode) {
+                gainNode.gain.value = volume * 0.7; // Max volume 0.7 (audible but not too loud)
+            }
+        });
+
+        // Quotes data
+        const quotes = [
+            { text: "The only secure system is the one that's powered off.", author: "Gene Spafford" },
+            { text: "In cybersecurity, the only secure system is the one that doesn't exist.", author: "Unknown" },
+            { text: "The best way to predict the future is to invent it.", author: "Alan Kay" },
+            { text: "Security is not a product, but a process.", author: "Bruce Schneier" },
+            { text: "Code is like humor. When you have to explain it, it's bad.", author: "Cory House" }
+        ];
+
+        let currentQuote = 0;
+
+        function changeQuote(index) {
+            currentQuote = index;
+            document.getElementById('quoteText').textContent = quotes[index].text;
+            document.getElementById('quoteAuthor').textContent = quotes[index].author;
+            
+            document.querySelectorAll('.quote-dot').forEach((dot, i) => {
+                dot.classList.toggle('active', i === index);
+            });
+        }
+
+        // Auto-rotate quotes
+        setInterval(() => {
+            currentQuote = (currentQuote + 1) % quotes.length;
+            changeQuote(currentQuote);
+        }, 8000);
+
+        // Projects Data
+        const projects = [
+            {
+                title: "Network Security Lab",
+                description: "Enterprise-grade network security implementation with IDS/IPS and firewall rules for large organizations.",
+                tech: ["Cisco", "Firewalls", "IDS", "IPS"],
+                icon: "fa-shield-halved"
+            },
+            {
+                title: "Kali Linux Pentesting Suite",
+                description: "Automated penetration testing toolkit with vulnerability assessment and reporting features.",
+                tech: ["Kali", "Metasploit", "Nmap", "Burp Suite"],
+                icon: "fa-skull"
+            },
+            {
+                title: "Enterprise Network Design",
+                description: "Scalable network architecture for large organizations with redundancy and failover.",
+                tech: ["OSPF", "BGP", "VLAN", "STP"],
+                icon: "fa-diagram-project"
+            },
+            {
+                title: "Student Management System",
+                description: "Full-stack application for educational institutions with role-based access.",
+                tech: ["React", "Node.js", "MongoDB", "Express"],
+                icon: "fa-users"
+            },
+            {
+                title: "Cloud Network Monitor",
+                description: "Real-time monitoring solution for cloud infrastructure with alerting system.",
+                tech: ["AWS", "CloudWatch", "Python", "Docker"],
+                icon: "fa-cloud"
+            },
+            {
+                title: "AI-Powered Security Tool",
+                description: "Machine learning based intrusion detection system for network traffic analysis.",
+                tech: ["Python", "TensorFlow", "Scikit-learn", "Pandas"],
+                icon: "fa-brain"
+            }
+        ];
+
+        // Splash Screen
+        function enterPortfolio() {
+            const splash = document.getElementById('splashScreen');
+            const main = document.getElementById('mainPortfolio');
+            
+            splash.classList.add('hidden');
+            
+            setTimeout(() => {
+                main.classList.add('visible');
+                initializeMatrix();
+                animateElements();
+                // Start typing effects after portfolio is visible
+                startTypingEffects();
+                // Load actual photos (you'll replace these with your actual image paths)
+                loadPhotos();
+            }, 1200);
+        }
+
+        function loadPhotos() {
+    // Use your actual filenames
+    const heroPhoto = document.getElementById('heroPhoto');
+    if (heroPhoto) heroPhoto.src = "images/newton-profile.jpg"; // Your actual filename
+    
+    const aboutPhoto = document.querySelector('.about-photo img');
+    if (aboutPhoto) aboutPhoto.src = "images/newton-about.jpg"; // Your actual filename
+    
+    const cvPhoto = document.getElementById('cvPhoto');
+    if (cvPhoto) cvPhoto.src = "images/cvPhoto.jpg"; // Your actual filename
+}
+
+        // Matrix Background Effect
+        function initializeMatrix() {
+            const matrixBg = document.getElementById('matrixBg');
+            if (!matrixBg) return;
+            
+            matrixBg.innerHTML = '';
+            for (let i = 0; i < 100; i++) {
+                const span = document.createElement('span');
+                span.textContent = Math.random() > 0.5 ? '1' : '0';
+                span.style.left = Math.random() * 100 + '%';
+                span.style.animationDelay = Math.random() * 10 + 's';
+                span.style.animationDuration = Math.random() * 10 + 10 + 's';
+                span.style.position = 'absolute';
+                span.style.color = 'var(--primary)';
+                span.style.fontSize = '1.2rem';
+                span.style.opacity = '0.3';
+                matrixBg.appendChild(span);
+            }
+        }
+
+        // Custom Cursor
+        const cursor = document.querySelector('.cursor');
+        const follower = document.querySelector('.cursor-follower');
+
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+            follower.style.left = e.clientX + 'px';
+            follower.style.top = e.clientY + 'px';
+        });
+
+        // Tab Switching
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            document.querySelectorAll('.tab-pane').forEach(pane => {
+                pane.classList.remove('active');
+            });
+            document.getElementById(`${tabName}-tab`).classList.add('active');
+
+            document.getElementById('tabNav').classList.remove('active');
+            
+            // Reset typing effects for the active tab
+            resetTypingForTab(tabName);
+        }
+
+        // Theme Toggle
+        function toggleTheme() {
+            const body = document.body;
+            const currentTheme = body.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            body.setAttribute('data-theme', newTheme);
+            
+            const icon = document.querySelector('.theme-toggle i');
+            icon.className = newTheme === 'dark' ? 'fas fa-moon' : 'fas fa-sun';
+            
+            localStorage.setItem('theme', newTheme);
+        }
+
+        // Load saved theme
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        document.body.setAttribute('data-theme', savedTheme);
+        const themeIcon = document.querySelector('.theme-toggle i');
+        if (themeIcon) {
+            themeIcon.className = savedTheme === 'dark' ? 'fas fa-moon' : 'fas fa-sun';
+        }
+
+        // Mobile Menu
+        function toggleMenu() {
+            document.getElementById('tabNav').classList.toggle('active');
+        }
+
+        // Populate Projects
+        function populateProjects() {
+            const grid = document.getElementById('projectsGrid');
+            grid.innerHTML = projects.map(project => `
+                <div class="project-card">
+                    <div class="project-header">
+                        <i class="fas ${project.icon}"></i>
+                    </div>
+                    <div class="project-body">
+                        <h3 class="project-title">${project.title}</h3>
+                        <p class="project-desc">${project.description}</p>
+                        <div class="project-tech">
+                            ${project.tech.map(t => `<span>${t}</span>`).join('')}
+                        </div>
+                        <div class="project-links">
+                            <a href="#" class="project-link"><i class="fab fa-github"></i> Code</a>
+                            <a href="#" class="project-link"><i class="fas fa-external-link-alt"></i> Demo</a>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // CV Functions - FIXED PDF Download
+        function viewCVOnline() {
+            document.getElementById('cvViewer').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function downloadCV() {
+            // Use jsPDF to create a proper PDF
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            
+            // Set document properties
+            doc.setFont("helvetica");
+            doc.setFontSize(24);
+            doc.setTextColor(0, 255, 157);
+            doc.text("NEWTON ASHA OMBUYA", 20, 20);
+            
+            doc.setFontSize(14);
+            doc.setTextColor(100, 100, 100);
+            doc.text("Software Engineering Student & Networking Trainer", 20, 30);
+            
+            // Contact info
+            doc.setFontSize(12);
+            doc.setTextColor(0, 0, 0);
+            doc.text("Contact: 0743 270114 | Email: ombuyanewton@gmail.com", 20, 40);
+            doc.text("Location: Nairobi, Kenya | Languages: English, Kiswahili, Luo", 20, 47);
+            
+            // Line separator
+            doc.setDrawColor(0, 255, 157);
+            doc.line(20, 52, 190, 52);
+            
+            // Professional Summary
+            doc.setFontSize(14);
+            doc.setTextColor(0, 255, 157);
+            doc.text("PROFESSIONAL SUMMARY", 20, 62);
+            doc.setFontSize(10);
+            doc.setTextColor(0, 0, 0);
+            const summary = "Motivated Software Engineering student and networking trainer with practical experience in networking labs, IT support, and technical training. Skilled in networking fundamentals, system setup, troubleshooting, and cybersecurity basics.";
+            const splitSummary = doc.splitTextToSize(summary, 170);
+            doc.text(splitSummary, 20, 70);
+            
+            // Work Experience
+            let yPos = 90;
+            doc.setFontSize(14);
+            doc.setTextColor(0, 255, 157);
+            doc.text("WORK EXPERIENCE", 20, yPos);
+            yPos += 8;
+            
+            doc.setFontSize(12);
+            doc.setTextColor(0, 0, 0);
+            doc.text("Cisco Trainer", 20, yPos);
+            yPos += 5;
+            doc.setFontSize(10);
+            doc.setTextColor(100, 100, 100);
+            doc.text("Missions of Hope International (MOHI) - Namarei Centre | Feb 2025 - Present", 20, yPos);
+            yPos += 5;
+            doc.setFontSize(10);
+            doc.setTextColor(0, 0, 0);
+            doc.text("• Deliver networking and IT training using Cisco Networking Academy curriculum", 25, yPos);
+            yPos += 5;
+            doc.text("• Guide students through practical labs and networking setup", 25, yPos);
+            yPos += 5;
+            doc.text("• Maintain computer networking lab environment", 25, yPos);
+            yPos += 5;
+            doc.text("• Support students with troubleshooting and technical assignments", 25, yPos);
+            yPos += 8;
+            
+            doc.setFontSize(12);
+            doc.setTextColor(0, 0, 0);
+            doc.text("Cisco Networking Training Assistant", 20, yPos);
+            yPos += 5;
+            doc.setFontSize(10);
+            doc.setTextColor(100, 100, 100);
+            doc.text("Missions of Hope International (MOHI) | 2024 - 2025", 20, yPos);
+            yPos += 5;
+            doc.setFontSize(10);
+            doc.setTextColor(0, 0, 0);
+            doc.text("• Assisted in networking and IT training sessions", 25, yPos);
+            yPos += 5;
+            doc.text("• Supported practical lab activities", 25, yPos);
+            yPos += 5;
+            doc.text("• Helped students understand networking basics", 25, yPos);
+            
+            // Education
+            yPos += 8;
+            doc.setFontSize(14);
+            doc.setTextColor(0, 255, 157);
+            doc.text("EDUCATION", 20, yPos);
+            yPos += 8;
+            
+            doc.setFontSize(12);
+            doc.setTextColor(0, 0, 0);
+            doc.text("Diploma in Software Engineering", 20, yPos);
+            yPos += 5;
+            doc.setFontSize(10);
+            doc.setTextColor(100, 100, 100);
+            doc.text("Mohi Technical Training Institute | 2024 - Present", 20, yPos);
+            yPos += 8;
+            
+            doc.setFontSize(12);
+            doc.setTextColor(0, 0, 0);
+            doc.text("AI Essentials for Software Developers", 20, yPos);
+            yPos += 5;
+            doc.setFontSize(10);
+            doc.setTextColor(100, 100, 100);
+            doc.text("Moringa School | Feb 2026 - 20th Feb 2026", 20, yPos);
+            yPos += 8;
+            
+            doc.setFontSize(12);
+            doc.setTextColor(0, 0, 0);
+            doc.text("KCSE", 20, yPos);
+            yPos += 5;
+            doc.setFontSize(10);
+            doc.setTextColor(100, 100, 100);
+            doc.text("Gathiru-ini Boys' High School | 2020 - 2023", 20, yPos);
+            
+            // Certifications (on next page if needed)
+            doc.addPage();
+            
+            doc.setFontSize(16);
+            doc.setTextColor(0, 255, 157);
+            doc.text("CERTIFICATIONS", 20, 20);
+            
+            doc.setFontSize(11);
+            doc.setTextColor(0, 0, 0);
+            doc.text("• Introduction to Cybersecurity - Cisco Networking Academy", 20, 35);
+            doc.text("• Networking Fundamentals - Cisco Networking Academy", 20, 43);
+            doc.text("• Modern AI Certification", 20, 51);
+            doc.text("• Ethical Hacking Training (Kali Linux Exposure)", 20, 59);
+            doc.text("• IT Support Training (Hardware & Software Troubleshooting)", 20, 67);
+            doc.text("• AI Essentials for Software Developers - Moringa School", 20, 75);
+            
+            // Technical Skills
+            doc.setFontSize(16);
+            doc.setTextColor(0, 255, 157);
+            doc.text("TECHNICAL SKILLS", 20, 95);
+            
+            doc.setFontSize(11);
+            doc.setTextColor(0, 0, 0);
+            doc.text("Networking:", 20, 110);
+            doc.setTextColor(100, 100, 100);
+            doc.text("Cisco, TCP/IP, OSPF, BGP, VLAN, Wireshark, Subnetting", 45, 110);
+            
+            doc.setTextColor(0, 0, 0);
+            doc.text("Cybersecurity:", 20, 120);
+            doc.setTextColor(100, 100, 100);
+            doc.text("Kali Linux, Metasploit, Nmap, Burp Suite, Firewalls, IDS/IPS", 45, 120);
+            
+            doc.setTextColor(0, 0, 0);
+            doc.text("Development:", 20, 130);
+            doc.setTextColor(100, 100, 100);
+            doc.text("JavaScript, Python, Node.js, React, HTML/CSS, Bash, SQL", 45, 130);
+            
+            doc.setTextColor(0, 0, 0);
+            doc.text("Cloud & DevOps:", 20, 140);
+            doc.setTextColor(100, 100, 100);
+            doc.text("AWS, Docker, Kubernetes, Jenkins, Terraform, Linux", 45, 140);
+            
+            // Referees
+            doc.setFontSize(16);
+            doc.setTextColor(0, 255, 157);
+            doc.text("REFEREES", 20, 160);
+            
+            doc.setFontSize(11);
+            doc.setTextColor(0, 0, 0);
+            doc.text("Sir Simon Maina", 20, 175);
+            doc.setTextColor(100, 100, 100);
+            doc.text("Lecturer, Mohi Technical Training Institute", 20, 182);
+            doc.text("Tel: 0740450112 | Email: simonmaish1683@gmail.com", 20, 189);
+            
+            doc.setTextColor(0, 0, 0);
+            doc.text("Madam Esther Mugure", 20, 202);
+            doc.setTextColor(100, 100, 100);
+            doc.text("Lecturer, Mohi Technical Training Institute", 20, 209);
+            doc.text("Tel: 0729148833 | Email: elsymugurel@gmail.com", 20, 216);
+            
+            // Save the PDF
+            doc.save('NEWTON_ASHA_OMBUYA_CV.pdf');
+        }
+
+        // Animation on scroll
+        function animateElements() {
+            const elements = document.querySelectorAll('.skill-card, .project-card, .terminal-window');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                        
+                        // Add anime.js animation
+                        anime({
+                            targets: entry.target,
+                            scale: [0.9, 1],
+                            opacity: [0, 1],
+                            duration: 800,
+                            easing: 'easeOutElastic'
+                        });
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            elements.forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(30px)';
+                observer.observe(el);
+            });
+        }
+
+        // ===== LIVE TYPING EFFECT FUNCTIONS =====
+        const typingRoles = {
+            home: [
+                "Software Engineer",
+                "Cybersecurity Analyst",
+                "Network Architect",
+                "Ethical Hacker",
+                "Cisco Trainer",
+                "Cloud Security Specialist",
+                "Penetration Tester"
+            ],
+            about: [
+                "Problem Solver",
+                "Tech Mentor",
+                "Lifelong Learner",
+                "Security Advocate",
+                "Innovation Driver",
+                "Team Player",
+                "Critical Thinker"
+            ],
+            skills: [
+                "Advanced",
+                "Intermediate",
+                "Professional",
+                "Expert",
+                "Certified",
+                "Specialized",
+                "Master"
+            ],
+            work: [
+                "Network Security",
+                "Penetration Testing",
+                "Cloud Architecture",
+                "Web Development",
+                "Security Research",
+                "DevOps",
+                "AI Security"
+            ],
+            cv: [
+                "3+ Years Training",
+                "50+ Students",
+                "7 Certifications",
+                "5+ Projects",
+                "2 Languages",
+                "Ongoing Diploma",
+                "Industry Ready"
+            ],
+            contact: [
+                "Open to Work",
+                "Freelance",
+                "Contract",
+                "Remote Only",
+                "Immediate",
+                "Part-time",
+                "Full-time"
+            ]
+        };
+
+        let typingIntervals = {};
+
+        function startTypingForTab(tabId, elementId) {
+            // Clear existing interval for this tab
+            if (typingIntervals[tabId]) {
+                clearInterval(typingIntervals[tabId]);
+            }
+
+            const roles = typingRoles[tabId];
+            const element = document.getElementById(elementId);
+            if (!element) return;
+
+            let index = 0;
+            let charIndex = 0;
+            let isDeleting = false;
+            let currentText = '';
+
+            function type() {
+                const currentRole = roles[index];
+                
+                if (isDeleting) {
+                    // Deleting text
+                    currentText = currentRole.substring(0, charIndex - 1);
+                    charIndex--;
+                } else {
+                    // Typing text
+                    currentText = currentRole.substring(0, charIndex + 1);
+                    charIndex++;
+                }
+
+                element.textContent = currentText;
+
+                if (!isDeleting && charIndex === currentRole.length) {
+                    // Finished typing - pause then delete
+                    isDeleting = true;
+                    setTimeout(type, 2000);
+                    return;
+                }
+
+                if (isDeleting && charIndex === 0) {
+                    // Finished deleting - move to next word
+                    isDeleting = false;
+                    index = (index + 1) % roles.length;
+                    setTimeout(type, 500);
+                    return;
+                }
+
+                // Speed control: faster when deleting, slower when typing
+                const speed = isDeleting ? 50 : 100;
+                setTimeout(type, speed);
+            }
+
+            // Start the typing effect
+            setTimeout(type, 500);
+            
+            // Store interval reference (though we're using setTimeout recursion, this is for cleanup)
+            typingIntervals[tabId] = setTimeout(() => {}, 0);
+        }
+
+        function startTypingEffects() {
+            startTypingForTab('home', 'homeTyping');
+            startTypingForTab('about', 'aboutTyping');
+            startTypingForTab('skills', 'skillsTyping');
+            startTypingForTab('work', 'workTyping');
+            startTypingForTab('cv', 'cvTyping');
+            startTypingForTab('contact', 'contactTyping');
+        }
+
+        function resetTypingForTab(tabName) {
+            // Clear the interval for this tab
+            if (typingIntervals[tabName]) {
+                clearTimeout(typingIntervals[tabName]);
+            }
+            
+            // Map tab names to element IDs
+            const elementMap = {
+                'home': 'homeTyping',
+                'about': 'aboutTyping',
+                'skills': 'skillsTyping',
+                'work': 'workTyping',
+                'cv': 'cvTyping',
+                'contact': 'contactTyping'
+            };
+            
+            // Reset the element text to empty
+            const element = document.getElementById(elementMap[tabName]);
+            if (element) {
+                element.textContent = '';
+            }
+            
+            // Restart typing for this tab
+            startTypingForTab(tabName, elementMap[tabName]);
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            populateProjects();
+            initializeMatrix();
+            changeQuote(0);
+            
+            // Music toggle button
+            document.getElementById('musicToggle').addEventListener('click', toggleMusic);
+            
+            // Pre-initialize audio context on first user interaction anywhere on page
+            document.body.addEventListener('click', function initOnce() {
+                initAudio();
+                document.body.removeEventListener('click', initOnce);
+            }, { once: true });
+        });
+    </script>
+</body>
+</html>
